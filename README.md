@@ -10,3 +10,8 @@
 <img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_37.jpg" alt="Logo">
 <img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_38.jpg" alt="Logo">
 <img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_39.jpg" alt="Logo">
+<img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_40.jpg" alt="Logo">
+<img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_41.jpg" alt="Logo">
+<img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_45.jpg" alt="Logo">
+<img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_47.jpg" alt="Logo">
+<img src="https://github.com/kullot/Interview_Training_Service/blob/main/img_ppt/Interview_Training_Service_48.jpg" alt="Logo">
