@@ -1,0 +1,36 @@
+{% extends "mod/base.html" %}
+
+{% block contents %}
+<h1 class="mb-3">2) 자소서 입력 페이지</h1>
+<h5 class="mb-4"></h5>
+<form action="#" method="post">
+<!-- <form action="/loading" method="POST"> -->
+  <div class="mb-3">
+    <table>
+      <tr>
+        <td colspan="3">
+          <label for="question1" class="text-white">자소서 입력 (1~3문단으로 나누어 입력해주세요)</label>
+        </td>
+      </tr>
+      <tr>
+        {% for idx in q2 %}
+          <td>
+            <textarea name="1st" id="ques{{idx}}" name="ques{{idx}}" class="form-control" aria-label="With textarea" style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); height:300px; text-align:center; "></textarea>
+          </td>
+        {% endfor %}
+          <!-- <td>
+            <textarea name="2st" id="ques2" class="form-control" aria-label="With textarea" style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); height:300px; text-align:center; "></textarea>
+          </td>
+          <td>
+            <textarea name="3st" id="ques3" class="form-control" aria-label="With textarea" style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); height:300px; text-align:center; "></textarea>
+          </td> -->
+      </tr>
+      </table>
+  </div>
+  <!-- <input type="submit" value="제출" /> -->
+  <a class="btn btn-outline-light btn-lg m-2" href="/loading" role="button" id="quesSendBtn">제출</a>
+  <!-- <input type="submit" value="제출" class="btn btn-outline-light btn-lg m-2" style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); text-align:center;"/> -->
+  <!-- <a class="btn btn-outline-light btn-lg m-2" role="button">제출</a> -->
+</form>
+<!-- <a class="btn btn-outline-light btn-lg m-2" href="/loading" role="button">다음</a> -->
+{% endblock %}

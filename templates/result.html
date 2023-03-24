@@ -1,0 +1,64 @@
+{% extends "mod/base.html" %}
+
+{% block contents %}
+<h1 class="mb-3">{{name}}님의 면접 결과</h1>
+<!-- <div class="collapse" id="collapseExample"> -->
+    <div class="row">
+        <div class="col-md-12 stretch-card grid-margin">
+            <div class="card bg-gradient-danger card-img-holder text-black">
+                <div class="card-header">
+                    <p>
+                        {% for nb in df_nb %}
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{nb}}"
+                            aria-expanded="false" aria-controls="collapseExample{{nb}}">
+                            {{nb}}번째 결과
+                        </button>
+                        {% endfor %}
+                    </p>
+                </div>
+            <!-- <div class="collapse collapse-horizontal" id="collapseWidthExample"></div> -->
+                {% for nb in df_nb %}
+                <div class="card-body collapse multi-collapse" id="collapseExample{{nb}}">
+                    <!-- <div class="chart" id="graph3"></div> -->
+                    <img class="zoom" src=".\static\img\text_emo{{nb}}.png" style="height: 200px;">
+                    <img class="zoom" src=".\static\img\mfcc{{nb}}.png" style="height: 200px;">
+                    <img class="zoom" src=".\static\img\record{{nb}}_wc.png" style="height: 200px;">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                        <!-- <h4 class="card-title float-left">녹화영상</h4> -->
+                    <video controls poster="./static/img/면접녹화.png" src="./static/video/video.mp4" type="video/mp4" width="100%" style="height: 300px;">
+                        <!-- <source src="./static/src/video.mp4" type="video/mp4"> -->
+                    </video>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 grid-margin stretch-card max-">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <h4 class="font-weight-normal mb-3">표정 감정 분석
+                    </h4> -->
+                    <img class="zoom" src=".\static\img\face_emo.png" width="100%">
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 style="text-align:right;">
+        <a class="btn btn-outline-light btn-lg m-2" href="/" role="button" rel="nofollow" target="_self">수고하셨습니다.</a>
+    </h2>
+    {% endblock %}

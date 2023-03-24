@@ -1,0 +1,22 @@
+{% extends "mod/base.html" %}
+
+{% block contents %}
+<h1 class="mb-3">1) AI 면접관</h1>
+<h5 class="mb-4">AI를 활용한 면접 연습</h5>
+<form action="/resume" method="POST">
+  <label for="nm" class="text-white">↓이름을 입력하시오↓</label>
+  <input type="text" name="nm" class="form-control" id="nm"
+    style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); text-align:center;" />
+  <select id="nb" name="nb" class="form-select" aria-label="Default select example"
+    style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); text-align:center;">
+    <option selected style="background-color:rgba(25, 73, 177, 0.671); color: rgb(0, 0, 0);">입력할 자소서 문항수</option>
+    <option value="1" style="background-color:rgba(25, 73, 177, 0.671); color: rgb(0, 0, 0);">One</option>
+    <option value="2" style="background-color:rgba(25, 73, 177, 0.671); color: rgb(0, 0, 0);">Two</option>
+    <option value="3" style="background-color:rgba(25, 73, 177, 0.671); color: rgb(0, 0, 0);">Three</option>
+
+    <input type="submit" value="면접 시작" class="btn btn-outline-light btn-lg m-2"
+      style="background-color:rgba(255, 255, 255, 0); color: rgb(255, 255, 255); text-align:center;" />
+  </select>
+</form>
+<!-- <a class="btn btn-outline-light btn-lg m-2" href="/resume" role="button" rel="nofollow" target="_self">면접 시작</a> -->
+{% endblock %}

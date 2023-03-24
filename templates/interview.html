@@ -1,0 +1,23 @@
+{% extends "mod/base.html" %}
+
+{% block contents %}
+<h5 class="mb-3">면접중..</h5>
+<!-- <h5 class="mb-4">웹켐 띄우고</h5> -->
+<img src="{{ url_for('emo_cam') }}" style="height:400px; width:500px;">
+{% for nb, qna in qnb_list %}
+<div class="row align-items-center justify-content-center text-center">
+<audio class="col-md-6" src="static/sound/130000.ckpt_390000.ckpt_{{nb}}.wav" controls=""></audio>
+<div class="btn btn-outline-light m-2 col-md-1" id="startRecordingButton{{nb}}" role="button" rel="nofollow" target="_self">시작</div>
+<div class="btn btn-outline-light m-2 col-md-1" id="stopRecordingButton{{nb}}" role="button" rel="nofollow" target="_self">종료</div>
+<div class="row">
+<div class="col-md-12">{{qna}}</div>
+</div>
+</div>
+{% endfor %}
+<div class="row align-self-end offset-md-9">
+<a class="btn btn-outline-light m-2 col-md-4" style="text-align: center;" href="/result" role="button" rel="nofollow" target="_self">결과</a>
+</div>
+<!-- <button id="startRecordingButton">Start recording</button>
+<button id="stopRecordingButton">Stop recording</button>
+<button id="playButton">Play</button> -->
+{% endblock %}

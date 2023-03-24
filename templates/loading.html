@@ -1,0 +1,53 @@
+{% extends "mod/base.html" %}
+
+{% block contents %}
+
+<h1>3) 자소서를 분석중입니다....</h1>
+<br>
+
+<p id="demo"></p>
+
+
+
+
+<br>
+<h3>↓면접시 주의사항↓</h3>
+<textarea readonly style="height:200px; background-color:rgba(240, 248, 255, 0); color: rgb(255, 255, 255);" class="form-control">
+    &#10;
+    1) 발음을 명확하게 해 주세요 &#10;
+    2) 이마를 포함한 얼굴이 잘 보이게 해주세요&#10;
+</textarea>
+
+
+<p id="next_btn"></p>
+<br>
+
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date().getTime()+30000;
+    
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    
+      // Get today's date and time
+      var now = new Date().getTime();
+        
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+        
+      // Time calculations for days, hours, minutes and seconds
+      
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+      // Output the result in an element with id="demo"
+      document.getElementById("demo").innerHTML = seconds + " 초 남았습니다.";
+        
+      // If the count down is over, write some text 
+      if (distance < 0) {
+        clearInterval(x);
+        //document.getElementById("demo").innerHTML = "분석 완료!!";
+        document.getElementById("demo").innerHTML = '<a class="btn btn-outline-light btn-lg m-2" href="/interview" role="button" id="loadbtn">다음</a>';
+      }
+    }, 1000);
+    </script>
+{% endblock %}

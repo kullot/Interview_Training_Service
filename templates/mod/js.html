@@ -1,0 +1,493 @@
+<!-- jQuery -->
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+$.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/static/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/static/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/static/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/plugins/moment/moment.min.js"></script>
+<script src="/static/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script type="text/javascript" src="../static/js/mdb.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script type='text/javascript'>
+    function init() {
+        var graphs = {{ graphJSON | safe}};
+    Plotly.plot('chart', graphs, {});
+    }
+</script>
+<script>
+    var graphs1 = {{ df_plotly1 | safe }};
+    Plotly.plot('bargraph1', graphs1, {});
+</script>
+<script>
+    var graphs2 = {{ df_plotly2 | safe }};
+    Plotly.plot('graph2', graphs2, {});
+</script>
+<script>
+    var graphs3 = {{ df_plotly3 | safe }};
+    Plotly.plot('graph3', graphs3, {});
+</script>
+<script>
+    var graphs4 = {{ df_plotly4 | safe }};
+    Plotly.plot('graph4', graphs4, {});
+</script>
+<!-- <script>
+    Plotly.plot('graph1',
+        {{ df_plotly2 | safe }});
+</script> -->
+
+<script>
+// send 버튼을 클릭하면
+$('#quesSendBtn').on('click', e => {
+    // 1. 사용자가 입력한 내용 추출, trim(): 좌우공백제거
+    let ques0 = $('#ques0').val()
+    let ques1 = $('#ques1').val()
+    let ques2 = $('#ques2').val()
+    // 1-1. 입력한 내용이 없다면
+    if (ques0 == '') {
+        alert('정확하게 입력하세요')
+        return
+    }
+    if (ques1 == '') {
+        alert('정확하게 입력하세요')
+        return
+    }
+    if (ques2 == '') {
+        alert('정확하게 입력하세요')
+        return
+    } 
+
+  //   $.ajax({
+  //   url:'/qbot',
+  //   // contentType을 명시하지 않으면 application/x-www-form-urlencoded; charset=UTF-8으로 세팅된다.
+  //   type: 'POST',
+  //   data: {
+  //     msg1: ques1,
+  //     // msg2: ques2,
+  //     // msg3: ques3
+  //     // msg: ques1,ques2,ques3
+  //   },
+  //   dataType:'JSON'
+  // })
+    $.post({
+      url:'/qbot',              // 서버주소
+      // data:'msg=' + ques1,ques2,ques3,  // 파라미터 (키=값&키=값&....)
+        data:{
+        msg1: ques0,
+        msg2: ques1,
+        msg3: ques2
+        },
+        
+      // 'msg=' + [ques1,ques2,ques3],
+      // data:'msg=' + ques1,
+      dataType:'json',         // 서버는 json 형식으로 응답한다 (dict or list base dict)
+      // success: qns => {
+      //   console.log(qns),
+      //   $.post({
+      //   url:'http://192.168.0.14:88/sound',              // 서버주소
+      //   // data:'msg=' + ques1,ques2,ques3,  // 파라미터 (키=값&키=값&....)
+      //   data:'msg=' + qns,
+        // dataType:'json'
+    })
+})
+</script>
+<!-- <script>
+var startRecordingButton = document.getElementById("startRecordingButton");
+var stopRecordingButton = document.getElementById("stopRecordingButton");
+var playButton = document.getElementById("playButton");
+var downloadButton = document.getElementById("downloadButton");
+
+var leftchannel = [];
+var rightchannel = [];
+var recorder = null;
+var recordingLength = 0;
+var volume = null;
+var mediaStream = null;
+var sampleRate = 44100;
+var context = null;
+var blob = null;
+var i = 1;
+let object = {};
+startRecordingButton.addEventListener("click", function () {
+    console.log('1')
+    // Initialize recorder
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    console.log('2')
+    navigator.getUserMedia(
+        {
+            audio: true
+        },
+        function (e) {
+            console.log("user consent");
+
+            // creates the audio context
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            context = new AudioContext();
+
+            // creates an audio node from the microphone incoming stream
+            mediaStream = context.createMediaStreamSource(e);
+
+            // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createScriptProcessor
+            // bufferSize: the onaudioprocess event is called when the buffer is full
+            var bufferSize = 2048;
+            var numberOfInputChannels = 2;
+            var numberOfOutputChannels = 2;
+            if (context.createScriptProcessor) {
+                recorder = context.createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);
+            } else {
+                recorder = context.createJavaScriptNode(bufferSize, numberOfInputChannels, numberOfOutputChannels);
+            }
+
+            recorder.onaudioprocess = function (e) {
+                leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+                rightchannel.push(new Float32Array(e.inputBuffer.getChannelData(1)));
+                recordingLength += bufferSize;
+            }
+
+            // we connect the recorder
+            mediaStream.connect(recorder);
+            recorder.connect(context.destination);
+        },
+        function (e) {
+            console.error(e);
+        });
+});
+function downFn() {
+    if (blob == null) {
+        return;
+    }
+    var url = URL.createObjectURL(blob);
+    
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = url;
+    // a.download = "record"+i+".wav";
+    a.download = `record${i}.wav`;
+    a.click();
+    // object[`variable${i}`] = blob;
+    let formData = new FormData();
+    formData.append('data', blob, `record${i}`);
+    $.ajax({
+        type: 'POST',
+        // url: '/result',
+        url: 'http://127.0.0.1:8000/wav2emo',
+        data: formData,
+        contentType: false,
+        processData: false
+    })
+    i++
+    window.URL.revokeObjectURL(url);
+}
+
+stopRecordingButton.addEventListener("click", function () {
+
+    // stop recording
+    recorder.disconnect(context.destination);
+    mediaStream.disconnect(recorder);
+
+    // we flat the left and right channels down
+    // Float32Array[] => Float32Array
+    var leftBuffer = flattenArray(leftchannel, recordingLength);
+    var rightBuffer = flattenArray(rightchannel, recordingLength);
+    // we interleave both channels together
+    // [left[0],right[0],left[1],right[1],...]
+    var interleaved = interleave(leftBuffer, rightBuffer);
+
+    // we create our wav file
+    var buffer = new ArrayBuffer(44 + interleaved.length * 2);
+    var view = new DataView(buffer);
+
+    // RIFF chunk descriptor
+    writeUTFBytes(view, 0, 'RIFF');
+    view.setUint32(4, 44 + interleaved.length * 2, true);
+    writeUTFBytes(view, 8, 'WAVE');
+    // FMT sub-chunk
+    writeUTFBytes(view, 12, 'fmt ');
+    view.setUint32(16, 16, true); // chunkSize
+    view.setUint16(20, 1, true); // wFormatTag
+    view.setUint16(22, 2, true); // wChannels: stereo (2 channels)
+    view.setUint32(24, sampleRate, true); // dwSamplesPerSec
+    view.setUint32(28, sampleRate * 4, true); // dwAvgBytesPerSec
+    view.setUint16(32, 4, true); // wBlockAlign
+    view.setUint16(34, 16, true); // wBitsPerSample
+    // data sub-chunk
+    writeUTFBytes(view, 36, 'data');
+    view.setUint32(40, interleaved.length * 2, true);
+
+    // write the PCM samples
+    var index = 44;
+    var volume = 1;
+    for (var i = 0; i < interleaved.length; i++) {
+        view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
+        index += 2;
+    }
+
+    // our final blob
+    blob = new Blob([view], { type: 'audio/wav; codecs=MS_PCM' });
+    downFn()
+});
+
+playButton.addEventListener("click", function () {
+    if (blob == null) {
+        return;
+    }
+
+    var url = window.URL.createObjectURL(blob);
+    var audio = new Audio(url);
+    audio.play();
+});
+
+downloadButton.addEventListener("click", downFn);
+
+function flattenArray(channelBuffer, recordingLength) {
+    var result = new Float32Array(recordingLength);
+    var offset = 0;
+    for (var i = 0; i < channelBuffer.length; i++) {
+        var buffer = channelBuffer[i];
+        result.set(buffer, offset);
+        offset += buffer.length;
+    }
+    return result;
+}
+
+function interleave(leftChannel, rightChannel) {
+    var length = leftChannel.length + rightChannel.length;
+    var result = new Float32Array(length);
+
+    var inputIndex = 0;
+
+    for (var index = 0; index < length;) {
+        result[index++] = leftChannel[inputIndex];
+        result[index++] = rightChannel[inputIndex];
+        inputIndex++;
+    }
+    return result;
+}
+
+function writeUTFBytes(view, offset, string) {
+    for (var i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+    }
+}
+</script> -->
+<script>
+    var myVar;
+
+    // function myFunction() {
+    //     myVar = setTimeout(showPage, 3000);
+    //     console.log('마이펑션 실행')
+    // }
+    $(window).load(function() {
+        showPage();
+    });
+
+
+    function showPage() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("myDiv").style.display = "block";
+        console.log('쇼페이지 실행')
+    }
+</script>
+
+{% for nb in df_nb %}
+<script>
+var startRecordingButton{{nb}} = document.getElementById("startRecordingButton{{nb}}");
+var stopRecordingButton{{nb}} = document.getElementById("stopRecordingButton{{nb}}");
+var playButton{{nb}} = document.getElementById("playButton{{nb}}");
+var downloadButton{{nb}} = document.getElementById("downloadButton{{nb}}");
+
+startRecordingButton{{nb}}.addEventListener("click", function () {
+    console.log('1')
+    // Initialize recorder
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    console.log('2')
+    navigator.getUserMedia(
+        {
+            audio: true
+        },
+        function (e) {
+            console.log("user consent");
+
+            // creates the audio context
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            context = new AudioContext();
+
+            // creates an audio node from the microphone incoming stream
+            mediaStream = context.createMediaStreamSource(e);
+
+            // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createScriptProcessor
+            // bufferSize: the onaudioprocess event is called when the buffer is full
+            var bufferSize = 2048;
+            var numberOfInputChannels = 2;
+            var numberOfOutputChannels = 2;
+            if (context.createScriptProcessor) {
+                recorder = context.createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);
+            } else {
+                recorder = context.createJavaScriptNode(bufferSize, numberOfInputChannels, numberOfOutputChannels);
+            }
+
+            recorder.onaudioprocess = function (e) {
+                leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+                rightchannel.push(new Float32Array(e.inputBuffer.getChannelData(1)));
+                recordingLength += bufferSize;
+            }
+
+            // we connect the recorder
+            mediaStream.connect(recorder);
+            recorder.connect(context.destination);
+        },
+        function (e) {
+            console.error(e);
+        });
+});
+
+stopRecordingButton{{nb}}.addEventListener("click", function () {
+
+    // stop recording
+    recorder.disconnect(context.destination);
+    mediaStream.disconnect(recorder);
+
+    // we flat the left and right channels down
+    // Float32Array[] => Float32Array
+    var leftBuffer = flattenArray(leftchannel, recordingLength);
+    var rightBuffer = flattenArray(rightchannel, recordingLength);
+    // we interleave both channels together
+    // [left[0],right[0],left[1],right[1],...]
+    var interleaved = interleave(leftBuffer, rightBuffer);
+
+    // we create our wav file
+    var buffer = new ArrayBuffer(44 + interleaved.length * 2);
+    var view = new DataView(buffer);
+
+    // RIFF chunk descriptor
+    writeUTFBytes(view, 0, 'RIFF');
+    view.setUint32(4, 44 + interleaved.length * 2, true);
+    writeUTFBytes(view, 8, 'WAVE');
+    // FMT sub-chunk
+    writeUTFBytes(view, 12, 'fmt ');
+    view.setUint32(16, 16, true); // chunkSize
+    view.setUint16(20, 1, true); // wFormatTag
+    view.setUint16(22, 2, true); // wChannels: stereo (2 channels)
+    view.setUint32(24, sampleRate, true); // dwSamplesPerSec
+    view.setUint32(28, sampleRate * 4, true); // dwAvgBytesPerSec
+    view.setUint16(32, 4, true); // wBlockAlign
+    view.setUint16(34, 16, true); // wBitsPerSample
+    // data sub-chunk
+    writeUTFBytes(view, 36, 'data');
+    view.setUint32(40, interleaved.length * 2, true);
+
+    // write the PCM samples
+    var index = 44;
+    var volume = 1;
+    for (var i = 0; i < interleaved.length; i++) {
+        view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
+        index += 2;
+    }
+
+    // our final blob
+    blob = new Blob([view], { type: 'audio/wav; codecs=MS_PCM' });
+    downFn()
+});
+</script>
+{% endfor %}
+
+
+<script>
+var leftchannel = [];
+var rightchannel = [];
+var recorder = null;
+var recordingLength = 0;
+var volume = null;
+var mediaStream = null;
+var sampleRate = 44100;
+var context = null;
+var blob = null;
+var i = 1;
+let object = {};
+
+function flattenArray(channelBuffer, recordingLength) {
+    var result = new Float32Array(recordingLength);
+    var offset = 0;
+    for (var i = 0; i < channelBuffer.length; i++) {
+        var buffer = channelBuffer[i];
+        result.set(buffer, offset);
+        offset += buffer.length;
+    }
+    return result;
+}
+
+function interleave(leftChannel, rightChannel) {
+    var length = leftChannel.length + rightChannel.length;
+    var result = new Float32Array(length);
+
+    var inputIndex = 0;
+
+    for (var index = 0; index < length;) {
+        result[index++] = leftChannel[inputIndex];
+        result[index++] = rightChannel[inputIndex];
+        inputIndex++;
+    }
+    return result;
+}
+
+function writeUTFBytes(view, offset, string) {
+    for (var i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+    }
+}
+
+function downFn() {
+    if (blob == null) {
+        return;
+    }
+    var url = URL.createObjectURL(blob);
+    
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = url;
+    // a.download = "record"+i+".wav";
+    a.download = `record${i}.wav`;
+    a.click();
+    // object[`variable${i}`] = blob;
+    let formData = new FormData();
+    formData.append('data', blob, `record${i}`);
+    $.ajax({
+        type: 'POST',
+        // url: '/result',
+        url: 'http://127.0.0.1:8000/wav2emo',
+        data: formData,
+        contentType: false,
+        processData: false
+    })
+    i++
+    window.URL.revokeObjectURL(url);
+}
+</script>
